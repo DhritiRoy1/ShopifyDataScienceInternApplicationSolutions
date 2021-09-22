@@ -15,4 +15,28 @@ a.How many orders were shipped by Speedy Express in total?
 54
 SELECT COUNT(*) as ShipmentOrderd FROM [Orders] where ShipperID=1;
 
-b
+b. What is the last name of the employee with the most orders?
+
+Peacock
+SELECT LastName, MAX(NetOrders) FROM
+(Select *, COUNT(DISTINCT OrderID) as NetOrders FROM
+(SELECT o.OrderID, e.EmployeeID, e.LastName, e.FirstName
+FROM Orders o Inner Join Employees e
+ON o.EmployeeID = e.EmployeeID)
+GROUP BY EmployeeID
+ORDER BY COUNT(DISTINCT OrderID) DESC)
+ 
+ c.  What product was ordered the most by customers in Germany?
+ SELECT ProductName, MaxOrders FROM
+(SELECT ProductID, MAX(NetOrders) as MaxOrders FROM
+(Select , Count(DISTINCT OrderID) AS NetOrders from
+(SELECT
+From Orders o Inner Join OrderDetails od
+On o.OrderID = od.OrderID
+Where CustomerID IN
+(Select CustomerID From
+Customers Where Country = 'Germany'))
+Group by ProductID
+Order by COUNT(DISTINCT OrderID) DESC)) t1 Inner Join Products p
+WHERE t1.ProductID = p.ProductID
+

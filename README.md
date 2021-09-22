@@ -27,16 +27,12 @@ GROUP BY EmployeeID
 ORDER BY COUNT(DISTINCT OrderID) DESC)
  
  c.  What product was ordered the most by customers in Germany?
- SELECT ProductName, MaxOrders FROM
-(SELECT ProductID, MAX(NetOrders) as MaxOrders FROM
-(Select , Count(DISTINCT OrderID) AS NetOrders from
-(SELECT
-From Orders o Inner Join OrderDetails od
-On o.OrderID = od.OrderID
-Where CustomerID IN
-(Select CustomerID From
-Customers Where Country = 'Germany'))
-Group by ProductID
-Order by COUNT(DISTINCT OrderID) DESC)) t1 Inner Join Products p
-WHERE t1.ProductID = p.ProductID
-
+SELECT prod.ProductName
+FROM Products AS prod
+    JOIN OrderDetails AS details ON details.ProductID = prod.ProductID
+    JOIN Orders AS ord ON ord.OrderID = details.OrderID
+    JOIN Customers AS cust ON cust.CustomerID = ord.CustomerID
+WHERE cust.Country = "Germany"
+GROUP BY prod.ProductName
+ORDER BY SUM(details.Quantity) DESC
+LIMIT 1;

@@ -12,3 +12,7 @@ I got a value of 302.58
 
 Question 2: For this question you’ll need to use SQL. Follow this link to access the data set required for the challenge. Please use queries to answer the following questions. Paste your queries along with your final numerical answers below.
 a.How many orders were shipped by Speedy Express in total?
+54
+SELECT COUNT(*) as ShipmentOrderd FROM [Orders] where ShipperID=1;
+
+b
